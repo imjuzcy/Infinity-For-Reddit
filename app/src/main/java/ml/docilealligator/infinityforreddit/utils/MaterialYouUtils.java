@@ -98,7 +98,7 @@ public class MaterialYouUtils {
             lightTheme.bottomAppBarBackgroundColor = lightTheme.colorPrimary;
             lightTheme.navBarColor = lightTheme.colorPrimary;
             lightTheme.primaryTextColor = context.getColor(android.R.color.system_neutral1_900);
-            lightTheme.secondaryTextColor = context.getColor(android.R.color.system_neutral1_700);
+            lightTheme.secondaryTextColor = context.getColor(android.R.color.system_neutral1_400);
             lightTheme.buttonTextColor = lightTheme.primaryTextColor;
             lightTheme.bottomAppBarIconColor = lightTheme.buttonTextColor;
             lightTheme.primaryIconColor = context.getColor(android.R.color.system_accent1_400);
@@ -128,7 +128,7 @@ public class MaterialYouUtils {
             darkTheme.bottomAppBarBackgroundColor = darkTheme.colorPrimary;
             darkTheme.navBarColor = darkTheme.colorPrimary;
             darkTheme.primaryTextColor = context.getColor(android.R.color.system_neutral1_10);
-            darkTheme.secondaryTextColor = context.getColor(android.R.color.system_neutral1_10);
+            darkTheme.secondaryTextColor = context.getColor(android.R.color.system_neutral1_200);
             darkTheme.buttonTextColor = context.getColor(android.R.color.system_neutral1_900);
             darkTheme.bottomAppBarIconColor = context.getColor(android.R.color.system_accent1_100);
             darkTheme.primaryIconColor = context.getColor(android.R.color.system_accent1_100);
