@@ -509,6 +509,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     String topScoreText = "";
                     if (comment.isScoreHidden()) {
                         commentText = mActivity.getString(R.string.hidden);
+                        topScoreText = mActivity.getString(R.string.hidden);
                     } else {
                         commentText = Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                 comment.getScore() + comment.getVoteType());
