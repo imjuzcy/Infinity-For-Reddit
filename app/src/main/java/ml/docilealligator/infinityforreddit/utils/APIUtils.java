@@ -21,6 +21,7 @@ public class APIUtils {
     public static final String API_UPLOAD_MEDIA_URI = "https://reddit-uploaded-media.s3-accelerate.amazonaws.com";
     public static final String API_UPLOAD_VIDEO_URI = "https://reddit-uploaded-video.s3-accelerate.amazonaws.com";
     public static final String REDGIFS_API_BASE_URI = "https://api.redgifs.com";
+    public static final String OH_MY_DL_BASE_URI = "https://ohmydl.com";
     public static final String IMGUR_API_BASE_URI = "https://api.imgur.com/3/";
     public static final String STREAMABLE_API_BASE_URI = "https://api.streamable.com";
     public static final String SERVER_API_BASE_URI = "http://127.0.0.1";
@@ -118,6 +119,8 @@ public class APIUtils {
     public static final String HOW_KEY = "how";
     public static final String HOW_YES = "yes";
     public static final String HOW_NO = "no";
+
+    public static final String PLATFORM_KEY = "platform";
 
     public static Map<String, String> getHttpBasicAuthHeader() {
         Map<String, String> params = new HashMap<>();
