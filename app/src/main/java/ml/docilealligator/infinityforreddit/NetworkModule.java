@@ -44,12 +44,18 @@ abstract class NetworkModule {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(chain -> chain.proceed(
-                        chain.request()
-                                .newBuilder()
-                                .header("User-Agent", APIUtils.USER_AGENT)
-                                .build()
-                ));
+                .addInterceptor(chain -> {
+                    if (chain.request().header("User-Agent") == null) {
+                        return chain.proceed(
+                                chain.request()
+                                        .newBuilder()
+                                        .header("User-Agent", APIUtils.USER_AGENT)
+                                        .build()
+                        );
+                    } else {
+                        return chain.proceed(chain.request());
+                    }
+                });
 
         if (proxyEnabled) {
             Proxy.Type proxyType = Proxy.Type.valueOf(mProxySharedPreferences.getString(SharedPreferencesUtils.PROXY_TYPE, "HTTP"));
@@ -209,7 +215,7 @@ abstract class NetworkModule {
         return new RedgifsAccessTokenAuthenticator(currentAccountSharedPreferences);
     }
 
-    /*@Provides
+    @Provides
     @Named("redgifs")
     @Singleton
     static Retrofit provideRedgifsRetrofit(@Named("RedgifsAccessTokenAuthenticator") Interceptor accessTokenAuthenticator,
@@ -230,16 +236,16 @@ abstract class NetworkModule {
                 .baseUrl(APIUtils.REDGIFS_API_BASE_URI)
                 .client(okHttpClientBuilder.build())
                 .build();
-    }*/
+    }
 
-    @Provides
+    /*@Provides
     @Named("redgifs")
     @Singleton
     static Retrofit provideRedgifsRetrofit(@Named("base") Retrofit retrofit) {
         return retrofit.newBuilder()
                 .baseUrl(APIUtils.OH_MY_DL_BASE_URI)
                 .build();
-    }
+    }*/
 
     @Provides
     @Named("imgur")

@@ -1,9 +1,13 @@
 package ml.docilealligator.infinityforreddit.utils;
 
+import android.os.SystemClock;
 import android.util.Base64;
+
+import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import ml.docilealligator.infinityforreddit.BuildConfig;
 import ml.docilealligator.infinityforreddit.account.Account;
@@ -49,6 +53,7 @@ public class APIUtils {
     public static final String AUTHORIZATION_BASE = "bearer ";
     public static final String USER_AGENT_KEY = "User-Agent";
     public static final String USER_AGENT = "android:ml.docilealligator.infinityforreddit:" + BuildConfig.VERSION_NAME + " (by /u/Hostilenemy)";
+    public static final String ANONYMOUS_USER_AGENT = "ml.docilealligator.infinityforreddit:" + BuildConfig.VERSION_NAME + " (by /u/Hostilenemy)";
     public static final String USERNAME_KEY = "username";
 
     public static final String GRANT_TYPE_KEY = "grant_type";
@@ -164,5 +169,29 @@ public class APIUtils {
         params.put(APIUtils.REFERER_KEY, APIUtils.REVEDDIT_REFERER);
         params.put(APIUtils.USER_AGENT_KEY, APIUtils.USER_AGENT);
         return params;
+    }
+
+    // RedGifs token management
+    public static final AtomicReference<RedgifsAuthToken> REDGIFS_TOKEN = new AtomicReference<>(new RedgifsAuthToken("", 0));
+
+    public static class RedgifsAuthToken {
+        @NonNull
+        public final String token;
+        private final long expireAt;
+
+        private RedgifsAuthToken(@NonNull String token, final long expireAt) {
+            this.token = token;
+            this.expireAt = expireAt;
+        }
+
+        public static RedgifsAuthToken expireIn1day(@NonNull String token) {
+            // 23 not 24 to give an hour leeway
+            long expireTime = 1000 * 60 * 60 * 23;
+            return new RedgifsAuthToken(token, SystemClock.uptimeMillis() + expireTime);
+        }
+
+        public boolean isValid() {
+            return !token.isEmpty() && expireAt > SystemClock.uptimeMillis();
+        }
     }
 }
