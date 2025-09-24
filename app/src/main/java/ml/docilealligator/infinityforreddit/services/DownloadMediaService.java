@@ -139,16 +139,13 @@ public class DownloadMediaService extends JobService {
                 if (post.isLoadedStreamableVideoAlready()) {
                     extras.putString(EXTRA_URL, post.getVideoUrl());
                 } else {
-                    extras.putString(EXTRA_REDGIFS_ID, post.getRedgifsId());
+                    extras.putString(EXTRA_STREAMABLE_SHORT_CODE, post.getStreamableShortCode());
                 }
 
                 extras.putString(EXTRA_FILE_NAME, "Streamable-" + post.getStreamableShortCode() + ".mp4");
             } else if (post.isRedgifs()) {
-                if (post.isLoadedStreamableVideoAlready()) {
-                    extras.putString(EXTRA_URL, post.getVideoUrl());
-                } else {
-                    extras.putString(EXTRA_STREAMABLE_SHORT_CODE, post.getStreamableShortCode());
-                }
+                extras.putString(EXTRA_URL, post.getVideoUrl());
+                extras.putString(EXTRA_REDGIFS_ID, post.getRedgifsId());
 
                 String redgifsId = post.getRedgifsId();
                 if (redgifsId != null && redgifsId.contains("-")) {
@@ -666,6 +663,7 @@ public class DownloadMediaService extends JobService {
             }
             if (contentStringResId != 0) {
                 builder.setContentText(getString(contentStringResId));
+                builder.setStyle(new NotificationCompat.BigTextStyle().bigText(getString(contentStringResId)));
             }
             if (mediaUri != null) {
                 int pendingIntentFlags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE : PendingIntent.FLAG_CANCEL_CURRENT;
@@ -834,7 +832,7 @@ public class DownloadMediaService extends JobService {
                                   int randomNotificationIdOffset, String mimeType, Uri destinationFileUri,
                                   int errorCode, boolean multipleDownloads) {
         if (errorCode != NO_ERROR) {
-            if (multipleDownloads) {
+            if (!multipleDownloads) {
                 switch (errorCode) {
                     case ERROR_CANNOT_GET_DESTINATION_DIRECTORY:
                         updateNotification(builder, mediaType, R.string.downloading_image_or_gif_failed_cannot_get_destination_directory,
